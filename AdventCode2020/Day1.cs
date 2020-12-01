@@ -15,7 +15,7 @@ namespace AdventCode2019
         {
             int result = Utils.Combinations(values, 2).First(v => v.Sum() == 2020).Aggregate((a,b) => a * b);
 
-            Assert.AreEqual(result, 485739);
+            Assert.AreEqual(result, 1014624);
         }
 
         [TestMethod]
@@ -23,7 +23,7 @@ namespace AdventCode2019
         {
             int result = Utils.Combinations(values, 3).First(v => v.Sum() == 2020).Aggregate((a, b) => a * b);
 
-            Assert.AreEqual(result, 161109702);
+            Assert.AreEqual(result, 80072256);
         }
     }
 }
