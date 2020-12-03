@@ -15,7 +15,7 @@ namespace AdventCode2019
         public static IEnumerable<int> IntsFromString(string input) =>
             input.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None).Select(s => int.Parse(s));
 
-        public static IEnumerable<String> StringsFromFile(string filename) =>
+        public static string [] StringsFromFile(string filename) =>
             File.ReadAllLines(filename, Encoding.UTF8);
 
         public static IEnumerable<String> StringsFromString(string input) =>
