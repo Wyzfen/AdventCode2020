@@ -59,7 +59,29 @@ namespace AdventCode2019
         public static Dictionary<string, string> SplitFromString(string input, char split = ')') =>
             input.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None).Select(i => i.Split(split)).ToDictionary(s => s[1], s => s[0]);
 
+        // Group consecutive lines into array, splitting into new group on blank line
+        public static List<List<string>> MergeLines(string[] lines)
+        {
+            List<List<string>> output = new List<List<string>>();
 
+            List<string> current = new List<string>();
+            foreach (string line in lines)
+            {
+                if (string.IsNullOrWhiteSpace(line))
+                {
+                    output.Add(current);
+                    current = new List<string>();
+                }
+                else
+                {
+                    current.Add(line.TrimEnd());
+                }
+            }
+
+            if (current.Count() > 0) output.Add(current);
+
+            return output;
+        }
 
         /// <summary>
         /// Uses factorial notation to give all permutations of input set.

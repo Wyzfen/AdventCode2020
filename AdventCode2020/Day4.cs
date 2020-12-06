@@ -9,7 +9,7 @@ namespace AdventCode2019
     [TestClass]
     public class Day4
     {
-        readonly string[] values = MergeLines(/**/Utils.StringsFromFile("day4.txt")
+        readonly List<List<string>> values = Utils.MergeLines(/**/Utils.StringsFromFile("day4.txt")
                                     /*/new string[] {
                                         "ecl:gry pid:860033327 eyr:2020 hcl:#fffffd        ",
                                         "byr:1937 iyr:2017 cid:147 hgt:183cm               ",
@@ -24,14 +24,12 @@ namespace AdventCode2019
                                         "                                                  ",
                                         "hcl:#cfa07d eyr:2025 pid:166559648                ",
                                         "iyr:2011 ecl:brn hgt:59in                         "
-                                    }/**/);
+                                    }/**/).Select(v => String.Join(" ", v).Split(' ').ToList()).ToList(); // Join groups of lines into one set
 
         [TestMethod]
         public void Problem1()
         {
-            List<string[]> inputs = values.Select(v => v.Split(' ')).ToList();
-
-            int result = inputs.Count(i => i.Length == 8 || (i.Length == 7 && !i.Any(s => s.Contains("cid"))));
+            int result = values.Count(i => i.Count == 8 || (i.Count == 7 && !i.Any(s => s.Contains("cid"))));
 
             Assert.AreEqual(result, 208);
         }
@@ -39,7 +37,7 @@ namespace AdventCode2019
         [TestMethod]
         public void Problem2()
         {
-            List<Dictionary<string, string>> inputs = values.Select(v => v.Split(' ').ToDictionary(i => i.Substring(0, 3), i => i.Substring(4))).ToList();
+            List<Dictionary<string, string>> inputs = values.Select(v => v.ToDictionary(i => i.Substring(0, 3), i => i.Substring(4))).ToList();
             int result = inputs.Count(i => ValidatePassport(i));            
 
             Assert.AreEqual(result, 167);
@@ -97,30 +95,6 @@ namespace AdventCode2019
             }
 
             return validCount >= 7;
-        }
-
-        private static string[] MergeLines(string[] lines)
-        {
-            List<string> output = new List<string>();
-
-            StringBuilder current = new StringBuilder();
-            foreach(string line in lines)
-            {                
-                if(string.IsNullOrWhiteSpace(line))
-                {
-                    output.Add(current.ToString());
-                    current = new StringBuilder();
-                }
-                else
-                {
-                    if(current.Length > 0) current.Append(" ");
-                    current.Append(line.TrimEnd());
-                }
-            }
-
-            if (current.Length > 0) output.Add(current.ToString());
-
-            return output.ToArray();
         }
     }
 }
