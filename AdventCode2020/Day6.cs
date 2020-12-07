@@ -21,7 +21,7 @@ namespace AdventCode2019
         [TestMethod]
         public void Problem2()
         {
-            int result = values.Sum(v => v.Aggregate((a, b) => String.Concat(a.Intersect(b))).Count());
+            int result = values.Sum(v => v.Aggregate<IEnumerable<char>>((a, b) => a.Intersect(b)).Count());
 
             Assert.AreEqual(result, 3473);
         }
