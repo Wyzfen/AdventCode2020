@@ -12,6 +12,9 @@ namespace AdventCode2019
         public static IEnumerable<int> IntsFromFile(string filename) =>
             File.ReadAllLines(filename, Encoding.UTF8).Select(s => int.Parse(s));
 
+        public static IEnumerable<long> LongsFromFile(string filename) =>
+            File.ReadAllLines(filename, Encoding.UTF8).Select(s => long.Parse(s));
+
         public static IEnumerable<int> IntsFromString(string input) =>
             input.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None).Select(s => int.Parse(s));
 
@@ -126,19 +129,19 @@ namespace AdventCode2019
         /// <param name="set"></param>
         /// <param name="choose"></param>
         /// <returns></returns>
-        public static IEnumerable<List<int>> Combinations(IEnumerable<int> input, int choose)
+        public static IEnumerable<List<T>> Combinations<T>(IEnumerable<T> input, int choose)
         {
-            List<int> set = new List<int>(input);
+            List<T> set = new List<T>(input);
             for (int i = 0; i < set.Count(); i++)
             {
                 // only want 1 character, just return this one
                 if (choose == 1)
-                    yield return new List<int>(new int[] { set[i] });
+                    yield return new List<T>(new T[] { set[i] });
 
                 // want more than one character, return this one plus all combinations one shorter
                 // only use characters after the current one for the rest of the combinations
                 else
-                    foreach (List<int> next in Combinations(set.GetRange(i + 1, set.Count - (i + 1)), choose - 1))
+                    foreach (List<T> next in Combinations(set.GetRange(i + 1, set.Count - (i + 1)), choose - 1))
                     {
                         next.Add(set[i]);
                         yield return next;
